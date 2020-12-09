@@ -29,6 +29,7 @@ public class Product {
 	private String id;
 	private String name;
 	private Float price;
+	private Integer qty;
 	
 	private static final Logger logger = Logger.getLogger(Product.class.getName());
 	
@@ -64,6 +65,14 @@ public class Product {
 	}
 	public void setPrice(Float price) {
 		this.price = price;
+	}
+
+	@DynamoDBAttribute(attributeName = "qty")
+	public Integer getQty() {
+		return this.qty;
+	}
+	public void setQty(Integer qty) {
+		this.qty = qty;
 	}
 	
 	public List<Product> list() throws IOException {

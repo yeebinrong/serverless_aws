@@ -2,6 +2,7 @@ package com.serverless;
 
 import java.util.Collections;
 import java.util.Map;
+import java.util.HashMap;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -25,17 +26,24 @@ public class DeleteProductHandler implements RequestHandler<Map<String, Object>,
 	        // get the Product by id
 	        Boolean success = new Product().delete(productId);
 			
+			Map<String, String> m = new HashMap<String, String>();
+			m.put("X-Powered-By","AWS Lambda & Serverless");
+			m.put("Access-Control-Allow-Origin","true");
+			m.put("Access-Control-Allow-Origin","*");
+
 			// send response back
 	        if (success) {
 	            return ApiGatewayResponse.builder()
 	        				.setStatusCode(204)
-	        				.setHeaders(Collections.singletonMap("X-Powered-By", "AWS Lambda & Serverless"))
+							// .setHeaders(Collections.singletonMap("X-Powered-By","AWS Lambda & Serverless"))
+							.setHeaders(m)
 	        				.build();
 	          } else {
 	            return ApiGatewayResponse.builder()
 	        				.setStatusCode(404)
 	        				.setObjectBody("Product with id: '" + productId + "' not found.")
-	        				.setHeaders(Collections.singletonMap("X-Powered-By", "AWS Lambda & Serverless"))
+							// .setHeaders(Collections.singletonMap("X-Powered-By","AWS Lambda & Serverless"))
+							.setHeaders(m)
 	        				.build();
 	          }
 		} catch (Exception e) {

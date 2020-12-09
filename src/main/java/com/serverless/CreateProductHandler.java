@@ -1,9 +1,11 @@
 package com.serverless;
 import com.serverless.dal.Product;
 
+import java.net.http.HttpHeaders;
 import java.util.Collections;
 
 import java.util.Map;
+import java.util.HashMap;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -28,13 +30,20 @@ public class CreateProductHandler implements RequestHandler<Map<String, Object>,
 			//product.setId(body.get("id").asText());
 			product.setName(body.get("name").asText());
 			product.setPrice((float) body.get("price").asDouble());
+			product.setQty((int) body.get("qty").asInt());
 			product.save(product);
 			
+			Map<String, String> m = new HashMap<String, String>();
+			m.put("X-Powered-By","AWS Lambda & Serverless");
+			m.put("Access-Control-Allow-Origin","true");
+			m.put("Access-Control-Allow-Origin","*");
+
 			// send the response back
 				return ApiGatewayResponse.builder()
 						.setStatusCode(200)
 						.setObjectBody(product)
-						.setHeaders(Collections.singletonMap("X-Powered-By","AWS Lambda & Serverless"))
+						// .setHeaders(Collections.singletonMap("X-Powered-By","AWS Lambda & Serverless"))
+						.setHeaders(m)
 						.build();
 		} catch (Exception e) {
 	          logger.error("Error in saving product: " + e);

@@ -66,24 +66,28 @@ functions:
       - http:
           path: /products
           method: get
+          cors: true # <-- CORS!
   getProduct:
     handler: com.serverless.GetProductHandler
     events:
       - http:
           path: /products/{id}
           method: get
+          cors: true # <-- CORS!
   createProduct:
     handler: com.serverless.CreateProductHandler
     events:
       - http:
           path: /products
           method: post
+          cors: true # <-- CORS!
   deleteProduct:
     handler: com.serverless.DeleteProductHandler
     events:
       - http:
           path: /products/{id}
           method: delete
+          cors: true # <-- CORS!
 
 #    The following are a few example events you can configure
 #    NOTE: Please make sure to change your handler code to work with those events
