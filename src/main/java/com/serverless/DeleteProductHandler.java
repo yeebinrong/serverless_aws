@@ -17,6 +17,10 @@ public class DeleteProductHandler implements RequestHandler<Map<String, Object>,
 
 	@Override
 	public ApiGatewayResponse handleRequest(Map<String, Object> input, Context context) {
+		Map<String, String> m = new HashMap<String, String>();
+		m.put("X-Powered-By","AWS Lambda & Serverless");
+		m.put("Access-Control-Allow-Origin","true");
+		m.put("Access-Control-Allow-Origin","*");
 		try {
 			// get the 'pathParamters' from input
 	        @SuppressWarnings("unchecked")
@@ -25,11 +29,6 @@ public class DeleteProductHandler implements RequestHandler<Map<String, Object>,
 
 	        // get the Product by id
 	        Boolean success = new Product().delete(productId);
-			
-			Map<String, String> m = new HashMap<String, String>();
-			m.put("X-Powered-By","AWS Lambda & Serverless");
-			m.put("Access-Control-Allow-Origin","true");
-			m.put("Access-Control-Allow-Origin","*");
 
 			// send response back
 	        if (success) {
@@ -54,7 +53,8 @@ public class DeleteProductHandler implements RequestHandler<Map<String, Object>,
         	return ApiGatewayResponse.builder()
         			.setStatusCode(500)
         			.setObjectBody(responseBody)
-        			.setHeaders(Collections.singletonMap("X-Powered-By","AWS Lambda & Serverless"))
+					// .setHeaders(Collections.singletonMap("X-Powered-By","AWS Lambda & Serverless"))
+					.setHeaders(m)
         			.build();
 		}
 	}

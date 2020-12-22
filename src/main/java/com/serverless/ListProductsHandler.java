@@ -18,13 +18,12 @@ public class ListProductsHandler implements RequestHandler<Map<String, Object>, 
 
 	@Override
 	public ApiGatewayResponse handleRequest(Map<String, Object> input, Context context) {
+		Map<String, String> m = new HashMap<String, String>();
+		m.put("X-Powered-By","AWS Lambda & Serverless");
+		m.put("Access-Control-Allow-Origin","true");
+		m.put("Access-Control-Allow-Origin","*");
 		try {
 			List<Product> products = new Product().list();
-			
-			Map<String, String> m = new HashMap<String, String>();
-			m.put("X-Powered-By","AWS Lambda & Serverless");
-			m.put("Access-Control-Allow-Origin","true");
-			m.put("Access-Control-Allow-Origin","*");
 
 			// send the response back
 			return ApiGatewayResponse.builder()
@@ -41,7 +40,8 @@ public class ListProductsHandler implements RequestHandler<Map<String, Object>, 
           	return ApiGatewayResponse.builder()
           			.setStatusCode(500)
           			.setObjectBody(responseBody)
-          			.setHeaders(Collections.singletonMap("X-Powered-By","AWS Lambda & Serverless"))
+					// .setHeaders(Collections.singletonMap("X-Powered-By","AWS Lambda & Serverless"))
+					.setHeaders(m)
           			.build();
 		}
 	}

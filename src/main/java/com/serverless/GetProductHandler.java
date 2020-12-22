@@ -17,6 +17,12 @@ public class GetProductHandler implements RequestHandler<Map<String, Object>, Ap
 
 	@Override
 	public ApiGatewayResponse handleRequest(Map<String, Object> input, Context context) {
+
+		Map<String, String> m = new HashMap<String, String>();
+		m.put("X-Powered-By","AWS Lambda & Serverless");
+		m.put("Access-Control-Allow-Origin","true");
+		m.put("Access-Control-Allow-Origin","*");
+
 		try {
 			// get the 'pathParamters' from input
 			@SuppressWarnings("unchecked")
@@ -25,11 +31,6 @@ public class GetProductHandler implements RequestHandler<Map<String, Object>, Ap
 			
 			// get product by id
 			Product product = new Product().get(productId);
-
-			Map<String, String> m = new HashMap<String, String>();
-			m.put("X-Powered-By","AWS Lambda & Serverless");
-			m.put("Access-Control-Allow-Origin","true");
-			m.put("Access-Control-Allow-Origin","*");
 
 			// send the response back
 			if (product != null) {
@@ -55,7 +56,8 @@ public class GetProductHandler implements RequestHandler<Map<String, Object>, Ap
         	return ApiGatewayResponse.builder()
         			.setStatusCode(500)
         			.setObjectBody(responseBody)
-        			.setHeaders(Collections.singletonMap("X-Powered-By","AWS Lambda & Serverless"))
+					// .setHeaders(Collections.singletonMap("X-Powered-By","AWS Lambda & Serverless"))
+					.setHeaders(m)
         			.build();
 		}
 	}
